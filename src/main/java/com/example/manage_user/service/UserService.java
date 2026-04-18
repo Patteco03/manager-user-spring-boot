@@ -3,6 +3,7 @@ package com.example.manage_user.service;
 import com.example.manage_user.domain.model.User;
 import com.example.manage_user.dto.UserRequestDTO;
 import com.example.manage_user.dto.UserResponseDTO;
+import com.example.manage_user.exception.ResourceNotFoundException;
 import com.example.manage_user.mapper.UserMapper;
 import com.example.manage_user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +39,7 @@ public class UserService {
 
     public UserResponseDTO findById(UUID id) {
         User user = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return UserMapper.toDTO(user);
     }
 
