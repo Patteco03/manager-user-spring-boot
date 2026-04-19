@@ -1,10 +1,7 @@
 package com.example.manage_user.controllers;
 
-import com.example.manage_user.dto.UserRequestDTO;
 import com.example.manage_user.dto.UserResponseDTO;
 import com.example.manage_user.service.UserService;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,11 +15,6 @@ public class UserController {
 
     public UserController(UserService service) {
         this.service = service;
-    }
-
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> create(@RequestBody @Valid UserRequestDTO dto) {
-        return ResponseEntity.ok(service.create(dto));
     }
 
     @GetMapping
