@@ -44,6 +44,8 @@ public class UserService {
     }
 
     public void delete(UUID id) {
-        repository.deleteById(id);
+        User user = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        repository.delete(user);
     }
 }
