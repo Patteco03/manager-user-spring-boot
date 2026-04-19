@@ -2,8 +2,10 @@ package com.example.manage_user.security.auth;
 
 import com.example.manage_user.domain.model.User;
 import com.example.manage_user.dto.LoginRequestDTO;
+import com.example.manage_user.dto.UserResponseDTO;
 import com.example.manage_user.exception.BusinessException;
 import com.example.manage_user.exception.ErrorCode;
+import com.example.manage_user.mapper.UserMapper;
 import com.example.manage_user.repository.UserRepository;
 import com.example.manage_user.security.jwt.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,5 +33,11 @@ public class AuthService {
         }
 
         return jwtService.generateToken(user.getEmail());
+    }
+
+    public UserResponseDTO me(String email) {
+        User user = repository.findByEmail(email)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, "User not found"));
+        return UserMapper.toDTO(user);
     }
 }

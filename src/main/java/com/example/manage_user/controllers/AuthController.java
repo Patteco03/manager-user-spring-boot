@@ -7,6 +7,8 @@ import com.example.manage_user.dto.UserResponseDTO;
 import com.example.manage_user.security.auth.AuthService;
 import com.example.manage_user.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +36,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> register(@RequestBody @Valid UserRequestDTO dto) {
         return ResponseEntity.ok(userService.create(dto));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDTO> me(@AuthenticationPrincipal String email) {
+        return ResponseEntity.ok(service.me(email));
     }
 }

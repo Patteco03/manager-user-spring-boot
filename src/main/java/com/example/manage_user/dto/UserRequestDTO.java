@@ -11,6 +11,9 @@ public class UserRequestDTO {
     @NotBlank
     private String name;
 
+    @NotBlank
+    private String username;
+
     @Email
     private String email;
 
