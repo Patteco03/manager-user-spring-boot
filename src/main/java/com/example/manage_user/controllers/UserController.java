@@ -2,9 +2,10 @@ package com.example.manage_user.controllers;
 
 import com.example.manage_user.dto.UserResponseDTO;
 import com.example.manage_user.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,8 +19,8 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserResponseDTO> getAll() {
-        return service.findAll();
+    public Page<UserResponseDTO> getAll(Pageable pageable) {
+        return service.findAll(pageable);
     }
 
     @GetMapping("/{id}")

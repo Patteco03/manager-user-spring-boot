@@ -6,10 +6,11 @@ import com.example.manage_user.dto.UserResponseDTO;
 import com.example.manage_user.exception.ResourceNotFoundException;
 import com.example.manage_user.mapper.UserMapper;
 import com.example.manage_user.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,11 +31,9 @@ public class UserService {
         return UserMapper.toDTO(saved);
     }
 
-    public List<UserResponseDTO> findAll() {
-        return repository.findAll()
-                .stream()
-                .map(UserMapper::toDTO)
-                .toList();
+    public Page<UserResponseDTO> findAll(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(UserMapper::toDTO);
     }
 
     public UserResponseDTO findById(UUID id) {
