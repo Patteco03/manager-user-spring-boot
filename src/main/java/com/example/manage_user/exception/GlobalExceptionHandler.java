@@ -5,6 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import java.util.UUID;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -75,5 +78,25 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(500).body(error);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiError> handleTypeMismatch(
+            MethodArgumentTypeMismatchException ex,
+            HttpServletRequest request
+    ) {
+
+        if (ex.getRequiredType() == UUID.class) {
+            ApiError error = new ApiError(
+                    "INVALID_UUID",
+                    "Invalid UUID format",
+                    400,
+                    request.getRequestURI()
+            );
+
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        return ResponseEntity.status(400).build();
     }
 }
